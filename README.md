@@ -21,12 +21,14 @@
 
 Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
 
-- [Open the Seedance 2.0 model page](https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw)
-- [Read Seedance 2.0 API docs](https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw)
-- [Get your EvoLink API key](https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw)
-- [Go to Seedance 2.0 API examples](https://github.com/EvoLinkAI/Seedance-2.0-Gateway-Service)
-- [Browse Seedance 2.0 prompt examples](https://github.com/EvoLinkAI/awesome-seedance-2.0-prompts)
-- [Read the complete Seedance 2.0 guide](https://github.com/EvoLinkAI/awesome-seedance-2-guide)
+<p align="center">
+  <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Model Page</strong></a> &nbsp;·&nbsp;
+  <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Docs</strong></a> &nbsp;·&nbsp;
+  <a href="https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>API Key</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/EvoLinkAI/Seedance-2.0-Gateway-Service"><strong>API Examples</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/EvoLinkAI/awesome-seedance-2.0-prompts"><strong>Seedance Prompts</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/EvoLinkAI/awesome-seedance-2-guide"><strong>Seedance Guide</strong></a>
+</p>
 
 ```bash
 npx evolink-seedance -y
@@ -181,5 +183,5 @@ Generate AI videos through natural conversation with your agent.
 ---
 
 <p align="center">
-  Powered by <a href="https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>EvoLink</strong></a> — Unified AI API Gateway
+  Powered by <a href="https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Skill</strong></a> — Unified AI API Gateway
 </p>
