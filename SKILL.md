@@ -1,25 +1,48 @@
 ---
 name: seedance-2-video-gen
 description: Seedance 2.0 AI video generation via EvoLink API. Three modes — text-to-video, image-to-video (1-2 images), reference-to-video (images + videos + audio). Auto audio (voice, SFX, BGM). Works with OpenClaw, Claude Code, Cursor. Powered by ByteDance Seedance 2.0.
-homepage: https://github.com/EvoLinkAI/seedance2-video-gen-skill-for-openclaw
-metadata: {"openclaw":{"homepage":"https://github.com/EvoLinkAI/seedance2-video-gen-skill-for-openclaw","requires":{"bins":["jq","curl"],"env":["EVOLINK_API_KEY"]},"primaryEnv":"EVOLINK_API_KEY"}}
+homepage: https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+metadata: {"openclaw":{"homepage":"https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw","requires":{"bins":["jq","curl"],"env":["EVOLINK_API_KEY"]},"primaryEnv":"EVOLINK_API_KEY"}}
 ---
 
 # Seedance Video Generation
 
+## When to Activate This Skill
+
+Activate this skill when the user asks to generate, create, animate, remix, edit, or extend AI videos with Seedance 2.0 via EvoLink.
+
+Keywords: seedance, video generation, text-to-video, image-to-video, reference-to-video, AI video, EvoLink video
+
 An interactive AI video generation assistant powered by the Seedance 2.0 model via EvoLink API.
+
+## Script Location
+
+All script paths in this file are relative to the directory containing this SKILL.md file. Resolve `{SKILL_DIR}` before running commands.
+
+```text
+Script = {SKILL_DIR}/scripts/seedance-gen.sh
+```
 
 ## After Installation
 
 When this skill is first loaded, proactively greet the user and start the setup:
 
 1. Check if `EVOLINK_API_KEY` is set
-   - **If not set:** "To generate videos, you'll need an EvoLink API key. It takes 30 seconds to get one — just sign up at evolink.ai/signup. Want me to walk you through it?"
+   - **If not set:** "To generate videos, you'll need an EvoLink API key. It takes 30 seconds to get one — open EVOLINK_KEY_URL=https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen. Want me to walk you through it?"
    - **If already set:** "You're all set! What kind of video would you like to create?"
 
 2. That's it. One question. The user is now in the flow.
 
 Do NOT list features, show a menu, or dump instructions. Just ask one question to move forward.
+
+## Low-Credit Starter Templates
+
+| Template | Estimated credits | Prompt |
+|---|---:|---|
+| Starter template 1 | under 10 credits | `Generate a 4-second 480p product reveal video` |
+| Starter template 2 | under 10 credits | `Animate one product image into a 4-second 480p video` |
+
+After the call, inspect the live `usage` object and remind the user that dashboard billing is the source of truth.
 
 ## Core Principles
 
@@ -35,7 +58,7 @@ Do NOT list features, show a menu, or dump instructions. Just ask one question t
 If the user hasn't provided an API key or set `EVOLINK_API_KEY`:
 
 - Tell them they need an EvoLink API Key
-- Guide them to register at https://evolink.ai and get a key from the dashboard
+- Guide them to open https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen, create a key, then paste it back
 - Once they provide a key, proceed to Step 2
 
 If the key is already set or provided, skip directly to Step 2.
@@ -129,11 +152,11 @@ The script writes structured lines to stdout that you must parse and act on:
 | `STATUS_UPDATE: <message>` | Every ~30s during generation | **Relay to the user** — e.g., *"Still working on your video, about 45 seconds remaining..."* |
 | `VIDEO_URL=<url>` | On success | Extract the URL and present the video to the user |
 | `ELAPSED=<Ns>` | On success | Optionally mention how long it took |
-| `POLL_TIMEOUT: task_id=<id>` | Polling exceeded 10 min | Tell user: "Your video may already be done — check https://evolink.ai/dashboard (task: `<id>`)" |
+| `POLL_TIMEOUT: task_id=<id>` | Polling exceeded 10 min | Tell user: "Your video may already be done — check https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen (task: `<id>`)" |
 | `WARNING: ...` | On timeout (>10 min) | Inform user generation may still be running, suggest checking back |
 | `ERROR: ...` (stderr) | On failure | Surface the error message to the user |
 
-**Critical**: Once you see `TASK_SUBMITTED:`, the task is queued on the server. **Do NOT run the script again.** Retrying wastes the user's API credits. If the script times out locally, the video may still complete — tell the user to check their dashboard at https://evolink.ai/dashboard.
+**Critical**: Once you see `TASK_SUBMITTED:`, the task is queued on the server. **Do NOT run the script again.** Retrying wastes the user's API credits. If the script times out locally, the video may still complete — tell the user to check their dashboard at https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen.
 
 ## Error Handling
 
@@ -141,8 +164,8 @@ Provide friendly, actionable messages:
 
 | Error | What to tell the user |
 |-------|----------------------|
-| Invalid/missing key (401) | "Your API key doesn't seem to work. You can check it at https://evolink.ai/dashboard?utm_source=github&utm_medium=readme&utm_campaign=awesome-openclaw-skills" |
-| Insufficient balance (402) | "Your account balance is low. You can add credits at https://evolink.ai/dashboard?utm_source=github&utm_medium=readme&utm_campaign=awesome-openclaw-skills" |
+| Invalid/missing key (401) | "Your API key doesn't seem to work. You can check it at https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen" |
+| Insufficient balance (402) | "Your account balance is low. You can add credits at https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen" |
 | Rate limited (429) | "Too many requests — let's wait a moment and try again" |
 | Content blocked (400) | "This prompt was flagged (realistic human faces are restricted). Try adjusting the description" |
 | Video file too large (400) | "One of the video files is too large. Each video must be ≤50MB and total video duration ≤15 seconds" |

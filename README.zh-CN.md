@@ -1,86 +1,185 @@
 # Seedance 2 Video Gen Skill for OpenClaw
 
 <p align="center">
-  <strong>适用于 OpenClaw、Claude Code、OpenCode、Cursor 的 Seedance 2.0 AI 视频生成技能包 —— 一条命令安装。</strong>
+  <strong>Seedance 2.0 AI video generation for OpenClaw, Claude Code, OpenCode, and Cursor — install in one command.</strong>
 </p>
 
 <p align="center">
-  <a href="#seedance-视频生成">Seedance 2.0</a> •
-  <a href="#安装">安装</a> •
-  <a href="#获取-api-key">API Key</a> •
-  <a href="https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw">EvoLink</a>
+  <a href="#seedance-video-generation">Seedance 2.0</a> •
+  <a href="#installation">Install</a> •
+  <a href="#getting-an-api-key">API Key</a> •
+  <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen">EvoLink</a>
 </p>
 
+> **AI Agent?** Skip the README, go straight to [**llms-install.md**](llms-install.md).
+
+<!-- release-agent fixed anchors start -->
+<a id="menu"></a>
+<a id="agent-skill-first"></a>
+<a id="installation"></a>
+<a id="agent-auto-install"></a>
+<a id="getting-an-api-key"></a>
+<a id="api-quick-start"></a>
+<a id="full-first-run-flow"></a>
+<a id="api-reference"></a>
+<a id="showcase"></a>
+<a id="troubleshooting"></a>
+<a id="compatibility"></a>
+<a id="community"></a>
+<a id="license"></a>
+
+[EvoLink API key](https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen)
+
+This key page handles sign in or create an account, key creation, and dashboard return on the same page.
+
+## 📑 Menu
+
+- [Agent Skill First](#agent-skill-first)
+- [Installation](#installation)
+- [Agent Auto-Install](#agent-auto-install)
+- [Getting an API Key](#getting-an-api-key)
+- [API Quick Start](#api-quick-start)
+- [Full First-Run Flow](#full-first-run-flow)
+- [API Reference](#api-reference)
+- [Showcase](#showcase)
+- [Troubleshooting](#troubleshooting)
+- [Compatibility](#compatibility)
+- [Community](#community)
+- [License](#license)
+
+## Agent Skill First
+
+Primary Agent install command:
+
+```bash
+npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+```
+
+The npm installer is a fallback/direct CLI path: `npx evolink-seedance@latest -y --path <skills-dir>`.
+
+## API Quick Start
+
+Use `EVOLINK_API_KEY`, create task -> poll/callback -> final result URL, and inspect [task lifecycle](docs/task-lifecycle.md) plus [API reference](docs/api-reference.md).
+
+## Full First-Run Flow
+
+Run `bash examples/curl/complete-flow.sh`. It creates a task, polls `/v1/tasks/{task_id}`, handles `failed` status and timeout, then prints the final URL.
+
+## API Reference
+
+See [docs/api-reference.md](docs/api-reference.md), [docs/response-schema.md](docs/response-schema.md), [docs/errors.md](docs/errors.md), and [docs/callbacks.md](docs/callbacks.md).
+
+<!-- release-agent fixed anchors end -->
+
+
+
 <p align="center">
-  <strong>语言:</strong>
+  <strong>Languages:</strong>
   <a href="README.md">English</a> |
   <a href="README.zh-CN.md">简体中文</a>
 </p>
 
----
+## EvoLink Quick Start
 
-## 这是什么？
+Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
 
-这是一个基于 [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw) 的 [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) 技能包。安装后，你的 AI Agent 就可以直接调用 Seedance 2.0 生成视频，支持三种核心工作流：
-
-| 技能 | 描述 | 模型 |
-|------|------|------|
-| **Seedance 2 Video Gen** | 文生视频、图生视频、参考生视频、自动音频 | Seedance 2.0（字节跳动） |
-
-### 能做什么
-
-- **文生视频**：描述场景直接生成视频
-- **图生视频**：基于 1–2 张参考图做动画
-- **参考生视频**：组合图片、视频、音频做重混、编辑或延长
-- **自动音频**：自动生成配音、音效、背景音乐
-- **灵活输出**：支持 4–15 秒、480p/720p、多种比例
-
-📚 完整指南： [awesome-seedance-2-guide](https://github.com/EvoLinkAI/awesome-seedance-2-guide)
-
----
-
-## 安装
-
-### 快速安装（OpenClaw）
+<p align="center">
+  <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Model Page</strong></a> &nbsp;·&nbsp;
+  <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Docs</strong></a> &nbsp;·&nbsp;
+  <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>API Key</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Evolink-AI/Seedance-2.0-Gateway-Service"><strong>API Examples</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Evolink-AI/awesome-seedance-2.0-prompts"><strong>Seedance Prompts</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Evolink-AI/awesome-seedance-2-guide"><strong>Seedance Guide</strong></a>
+</p>
 
 ```bash
-openclaw skills add https://github.com/EvoLinkAI/seedance2-video-gen-skill-for-openclaw
+npx evolink-seedance -y
+export EVOLINK_API_KEY="your_key_here"
+
+curl --request POST \
+  --url https://api.evolink.ai/v1/videos/generations \
+  --header "Authorization: Bearer ${EVOLINK_API_KEY}" \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "model": "seedance-2.0-text-to-video",
+    "prompt": "A 5-second cinematic product reveal, slow dolly-in, premium studio lighting",
+    "duration": 5,
+    "quality": "720p",
+    "aspect_ratio": "16:9"
+  }'
 ```
 
-### 通过 npm 安装（推荐）
+## What is This?
+
+This repository documents the complete first-run lifecycle: create task -> poll/callback -> final result URL. See [task lifecycle](docs/task-lifecycle.md) for `/v1/tasks/{task_id}` polling details.
+
+
+An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) skill powered by [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw). Install the skill and your AI agent gains Seedance 2.0 video generation with three core workflows:
+
+| Skill | Description | Model |
+|-------|-------------|-------|
+| **Seedance 2 Video Gen** | Text-to-video, image-to-video, reference-to-video, auto audio | Seedance 2.0 (ByteDance) |
+
+### What It Can Do
+
+- **Text-to-video** — describe a scene and generate a video
+- **Image-to-video** — animate from 1–2 reference images
+- **Reference-to-video** — combine images, video clips, and audio for remix, editing, or extension
+- **Auto audio** — generate voice, sound effects, and background music
+- **Flexible output** — 4–15 seconds, 480p/720p, multiple aspect ratios
+
+📚 Full guide: [awesome-seedance-2-guide](https://github.com/Evolink-AI/awesome-seedance-2-guide)
+
+---
+
+## Installation
+
+### OpenClaw Install
+
+```bash
+npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+```
+
+### Install via npm (Recommended)
 
 ```bash
 npx evolink-seedance
 ```
 
-或使用非交互模式（适合 AI Agent / CI）：
+Or non-interactive (for AI agents / CI):
 
 ```bash
 npx evolink-seedance -y
 ```
 
-安装到指定目录：
+Install to a specific directory:
 
 ```bash
 npx evolink-seedance -y --path ~/.claude/skills
 ```
 
-### 手动安装
+### Manual Install
 
 ```bash
-git clone https://github.com/EvoLinkAI/seedance2-video-gen-skill-for-openclaw.git
+git clone https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw.git
 cd seedance2-video-gen-skill-for-openclaw
 openclaw skills add .
 ```
 
 ---
 
-## 获取 API Key
+### Agent Auto-Install
 
-1. 在 [evolink.ai](https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw) 注册
-2. 进入 Dashboard → API Keys
-3. 创建一个新的 Key
-4. 设置环境变量：
+```bash
+npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+```
+
+## Getting an API Key
+
+1. Sign up at [evolink.ai](https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen)
+2. Go to Dashboard → API Keys
+3. Create a new key
+4. Set it in your environment:
 
 ```bash
 export EVOLINK_API_KEY=your_key_here
@@ -88,37 +187,43 @@ export EVOLINK_API_KEY=your_key_here
 
 ---
 
-## Seedance 视频生成
+## 🖼️ Showcase
 
-你可以直接通过和 Agent 对话来生成 AI 视频。
+| Text to video | Image to video | Reference video |
+|---|---|---|
+| Use a short prompt | Animate one image | Combine images, video, and audio |
 
-### 示例提示词
+## Seedance Video Generation
 
-> “生成一个 5 秒的猫弹钢琴电影感视频”
+Generate AI videos through natural conversation with your agent.
 
-> “把这张产品图做成一个 720p、16:9 的短广告视频”
+### Example Prompts
 
-> “用这张图和这个视频片段作参考，把场景延长，并加上环境音乐”
+> "Generate a 5-second cinematic video of a cat playing piano"
 
-### 直接脚本调用
+> "Animate this product image into a short ad, 720p, 16:9"
+
+> "Use this image and this clip as references, then extend the scene with ambient music"
+
+### Direct Script Usage
 
 ```bash
-# 文生视频
+# Text-to-video
 ./scripts/seedance-gen.sh "A serene sunset over ocean waves" --duration 5 --quality 720p
 
-# 图生视频
-./scripts/seedance-gen.sh "The camera slowly pushes in" --image "https://example.com/scene.jpg" --duration 6 --quality 720p
+# Image-to-video
+./scripts/seedance-gen.sh "The camera slowly pushes in" --image "https://assets.evolink.ai/example/scene.jpg" --duration 6 --quality 720p
 
-# 参考生视频
-./scripts/seedance-gen.sh "Replace the product with image 1" --image "https://example.com/product.jpg" --video "https://example.com/original.mp4" --duration 5 --quality 720p
+# Reference-to-video
+./scripts/seedance-gen.sh "Replace the product with image 1" --image "https://assets.evolink.ai/example/product.jpg" --video "https://assets.evolink.ai/example/original.mp4" --duration 5 --quality 720p
 ```
 
-### 环境要求
+### Requirements
 
-- 系统已安装 `curl` 和 `jq`
-- 已设置 `EVOLINK_API_KEY`
+- `curl` and `jq` installed on your system
+- `EVOLINK_API_KEY` environment variable set
 
-### 文件结构
+### File Structure
 
 ```text
 .
@@ -136,17 +241,30 @@ export EVOLINK_API_KEY=your_key_here
 
 ---
 
-## 故障排查
+## Compatibility
 
-| 问题 | 检查项 |
-|------|--------|
-| `401 Unauthorized` | 检查 shell 里的 `EVOLINK_API_KEY` |
-| `402 Payment Required` | 去 EvoLink 控制台充值 |
-| 没有输出文件 | 检查返回的视频 URL 和任务状态 |
-| 安装路径不对 | 用 `--path <skills-dir>` 重新安装 |
+| Agent | Install path |
+|---|---|
+| Claude Code | `~/.claude/skills` |
+| OpenCode | `~/.opencode/skills` |
+| OpenClaw | auto-detected |
+| Cursor | `.cursor/skills` |
+
+## Troubleshooting
+
+| Issue | What to check |
+|------|---------------|
+| `401 Unauthorized` | Verify `EVOLINK_API_KEY` in your shell |
+| `402 Payment Required` | Add credits in the EvoLink dashboard |
+| No output file | Check the returned video URL and task status |
+| Bad install path | Re-run with `--path <skills-dir>` |
 
 ---
 
 <p align="center">
-  Powered by <a href="https://evolink.ai/signup?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>EvoLink</strong></a> — 统一 AI API 网关
+  Powered by <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>EvoLink</strong></a> — Unified AI API Gateway
 </p>
+
+<p align="center">Powered by <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>EvoLink</strong></a> — Unified AI API Gateway</p>
+
+<p align="center">Powered by EvoLink — Unified AI API Gateway</p>

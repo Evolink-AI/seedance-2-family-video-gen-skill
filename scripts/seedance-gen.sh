@@ -75,7 +75,7 @@ check_api_key() {
         error "EVOLINK_API_KEY environment variable is required.
 
 To get started:
-1. Register at: https://evolink.ai
+1. Register at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen
 2. Get your API key from the dashboard
 3. Set the environment variable:
    export EVOLINK_API_KEY=your_key_here"
@@ -329,11 +329,11 @@ handle_error() {
     case $status_code in
         401)
             error "Invalid API key.
--> Check your key at: https://evolink.ai/dashboard"
+-> Check your key at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
             ;;
         402)
             error "Insufficient account balance.
--> Add credits at: https://evolink.ai/dashboard"
+-> Add credits at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
             ;;
         429)
             error "Rate limit exceeded. Please wait a few seconds and try again."
@@ -375,6 +375,11 @@ submit_generation() {
         -X POST "${API_BASE}/v1/videos/generations" \
         -H "Authorization: Bearer ${EVOLINK_API_KEY}" \
         -H "Content-Type: application/json" \
+        -H "X-EvoLink-Source: skill" \
+        -H "X-EvoLink-Skill: seedance-2-video-gen" \
+        -H "X-EvoLink-Package: evolink-seedance" \
+        -H "X-EvoLink-Campaign: seedance-2-video-gen" \
+        -H "X-EvoLink-Touchpoint: first-run" \
         -d "$payload" 2>&1) || true
 
     http_code=$(echo "$response_body" | tail -n1)
@@ -423,7 +428,7 @@ poll_task() {
         if [[ $elapsed -gt $MAX_POLL_SECONDS ]]; then
             echo "POLL_TIMEOUT: task_id=${task_id}"
             warn "Polling timed out after $((MAX_POLL_SECONDS / 60)) minutes. The video may still be processing on the server."
-            warn "Check your dashboard: https://evolink.ai/dashboard"
+            warn "Check your dashboard: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
             exit 1
         fi
 
@@ -452,7 +457,12 @@ poll_task() {
                 --connect-timeout 15 --max-time 60 \
                 -w "\n%{http_code}" \
                 -X GET "${API_BASE}/v1/tasks/${task_id}" \
-                -H "Authorization: Bearer ${EVOLINK_API_KEY}" 2>&1) || true
+                -H "Authorization: Bearer ${EVOLINK_API_KEY}" \
+                -H "X-EvoLink-Source: skill" \
+                -H "X-EvoLink-Skill: seedance-2-video-gen" \
+                -H "X-EvoLink-Package: evolink-seedance" \
+                -H "X-EvoLink-Campaign: seedance-2-video-gen" \
+                -H "X-EvoLink-Touchpoint: status-poll" 2>&1) || true
 
             http_code=$(echo "$response_body" | tail -n1)
             response_body=$(echo "$response_body" | sed '$d')

@@ -1,0 +1,9 @@
+name: API bug
+description: Report an API or skill runtime issue
+body:
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+    validations:
+      required: true

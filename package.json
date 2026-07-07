@@ -6,22 +6,33 @@
     "evolink-seedance": "./bin/cli.js"
   },
   "files": [
+    "llms-install.md",
+    "README.md",
     "bin/",
     "SKILL.md",
     "_meta.json",
     "scripts/",
     "references/",
-    "LICENSE"
+    "LICENSE",
+    "assets/banner.jpg"
   ],
-  "keywords": ["seedance", "video-generation", "ai-video", "openclaw", "evolink", "bytedance"],
+  "keywords": [
+    "seedance",
+    "video-generation",
+    "ai-video",
+    "openclaw",
+    "evolink",
+    "bytedance"
+  ],
   "author": "EvoLink AI",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EvoLinkAI/seedance2-video-gen-skill-for-openclaw"
+    "url": "https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw"
   },
-  "homepage": "https://evolink.ai",
+  "homepage": "https://evolink.ai/seedance-2-0?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen",
   "engines": {
     "node": ">=16"
-  }
+  },
+  "readmeFilename": "README.md"
 }

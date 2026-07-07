@@ -8,70 +8,8 @@
   <a href="#seedance-video-generation">Seedance 2.0</a> •
   <a href="#installation">Install</a> •
   <a href="#getting-an-api-key">API Key</a> •
-  <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen">EvoLink</a>
+  <a href="https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen">EvoLink</a>
 </p>
-
-> **AI Agent?** Skip the README, go straight to [**llms-install.md**](llms-install.md).
-
-<!-- release-agent fixed anchors start -->
-<a id="menu"></a>
-<a id="agent-skill-first"></a>
-<a id="installation"></a>
-<a id="agent-auto-install"></a>
-<a id="getting-an-api-key"></a>
-<a id="api-quick-start"></a>
-<a id="full-first-run-flow"></a>
-<a id="api-reference"></a>
-<a id="showcase"></a>
-<a id="troubleshooting"></a>
-<a id="compatibility"></a>
-<a id="community"></a>
-<a id="license"></a>
-
-[EvoLink API key](https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen)
-
-This key page handles sign in or create an account, key creation, and dashboard return on the same page.
-
-## 📑 Menu
-
-- [Agent Skill First](#agent-skill-first)
-- [Installation](#installation)
-- [Agent Auto-Install](#agent-auto-install)
-- [Getting an API Key](#getting-an-api-key)
-- [API Quick Start](#api-quick-start)
-- [Full First-Run Flow](#full-first-run-flow)
-- [API Reference](#api-reference)
-- [Showcase](#showcase)
-- [Troubleshooting](#troubleshooting)
-- [Compatibility](#compatibility)
-- [Community](#community)
-- [License](#license)
-
-## Agent Skill First
-
-Primary Agent install command:
-
-```bash
-npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
-```
-
-The npm installer is a fallback/direct CLI path: `npx evolink-seedance@latest -y --path <skills-dir>`.
-
-## API Quick Start
-
-Use `EVOLINK_API_KEY`, create task -> poll/callback -> final result URL, and inspect [task lifecycle](docs/task-lifecycle.md) plus [API reference](docs/api-reference.md).
-
-## Full First-Run Flow
-
-Run `bash examples/curl/complete-flow.sh`. It creates a task, polls `/v1/tasks/{task_id}`, handles `failed` status and timeout, then prints the final URL.
-
-## API Reference
-
-See [docs/api-reference.md](docs/api-reference.md), [docs/response-schema.md](docs/response-schema.md), [docs/errors.md](docs/errors.md), and [docs/callbacks.md](docs/callbacks.md).
-
-<!-- release-agent fixed anchors end -->
-
-
 
 <p align="center">
   <strong>Languages:</strong>
@@ -86,7 +24,7 @@ Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
 <p align="center">
   <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Model Page</strong></a> &nbsp;·&nbsp;
   <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Docs</strong></a> &nbsp;·&nbsp;
-  <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>API Key</strong></a> &nbsp;·&nbsp;
+  <a href="https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen"><strong>API Key</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/Seedance-2.0-Gateway-Service"><strong>API Examples</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2.0-prompts"><strong>Seedance Prompts</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2-guide"><strong>Seedance Guide</strong></a>
@@ -110,9 +48,6 @@ curl --request POST \
 ```
 
 ## What is This?
-
-This repository documents the complete first-run lifecycle: create task -> poll/callback -> final result URL. See [task lifecycle](docs/task-lifecycle.md) for `/v1/tasks/{task_id}` polling details.
-
 
 An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) skill powered by [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw). Install the skill and your AI agent gains Seedance 2.0 video generation with three core workflows:
 
@@ -168,15 +103,9 @@ openclaw skills add .
 
 ---
 
-### Agent Auto-Install
-
-```bash
-npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
-```
-
 ## Getting an API Key
 
-1. Sign up at [evolink.ai](https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen)
+1. Sign up at [evolink.ai](https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen)
 2. Go to Dashboard → API Keys
 3. Create a new key
 4. Set it in your environment:
@@ -186,12 +115,6 @@ export EVOLINK_API_KEY=your_key_here
 ```
 
 ---
-
-## 🖼️ Showcase
-
-| Text to video | Image to video | Reference video |
-|---|---|---|
-| Use a short prompt | Animate one image | Combine images, video, and audio |
 
 ## Seedance Video Generation
 
@@ -241,15 +164,6 @@ Generate AI videos through natural conversation with your agent.
 
 ---
 
-## Compatibility
-
-| Agent | Install path |
-|---|---|
-| Claude Code | `~/.claude/skills` |
-| OpenCode | `~/.opencode/skills` |
-| OpenClaw | auto-detected |
-| Cursor | `.cursor/skills` |
-
 ## Troubleshooting
 
 | Issue | What to check |
@@ -262,9 +176,7 @@ Generate AI videos through natural conversation with your agent.
 ---
 
 <p align="center">
-  Powered by <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>EvoLink</strong></a> — Unified AI API Gateway
+  Powered by <a href="https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen"><strong>Skill</strong></a> — Unified AI API Gateway
 </p>
 
-<p align="center">Powered by <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>EvoLink</strong></a> — Unified AI API Gateway</p>
-
-<p align="center">Powered by EvoLink — Unified AI API Gateway</p>
+<p align="center">Powered by <a href="https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen"><strong>EvoLink</strong></a> — Unified AI API Gateway</p>

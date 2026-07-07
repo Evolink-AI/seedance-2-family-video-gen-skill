@@ -20,6 +20,7 @@ const dim    = (s) => `\x1b[2m${s}\x1b[0m`;
 // ── Package root (resolve relative to this script) ───────────────────────────
 const PKG_ROOT = path.resolve(__dirname, '..');
 const SKILL_SLUG = 'seedance-2-video-gen';
+const INSTALL_KEY_URL = 'https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen';
 
 // ── Banner ────────────────────────────────────────────────────────────────────
 function printBanner() {
@@ -28,7 +29,7 @@ function printBanner() {
   console.log(bold(cyan('║') + '                                                          ' + bold(cyan('║'))));
   console.log(bold(cyan('║') + '   ' + bold('🎬  Seedance 2.0 Video Gen Skill Installer') + '           ' + bold(cyan('║'))));
   console.log(bold(cyan('║') + '       ' + dim('for OpenClaw · powered by EvoLink + ByteDance') + '     ' + bold(cyan('║'))));
-  console.log(bold(cyan('║') + '                  ' + dim('v2.0.0') + '                                   ' + bold(cyan('║'))));
+  console.log(bold(cyan('║') + '                  ' + dim('v2.0.6') + '                                   ' + bold(cyan('║'))));
   console.log(bold(cyan('║') + '                                                          ' + bold(cyan('║'))));
   console.log(bold(cyan('╚══════════════════════════════════════════════════════════╝')));
   console.log('');
@@ -41,11 +42,17 @@ function printHelp() {
   console.log('  npx evolink-seedance            ' + dim('# interactive installer'));
   console.log('  npx evolink-seedance -y          ' + dim('# non-interactive (for AI agents / CI)'));
   console.log('  npx evolink-seedance -y --path <dir>  ' + dim('# install to specific directory'));
+  console.log('  npx evolink-seedance --llms      ' + dim('# print agent installation guide'));
+  console.log('  npx evolink-seedance --skill     ' + dim('# print SKILL.md (skill definition)'));
+  console.log('  npx evolink-seedance --no-open   ' + dim('# install without opening the API key page'));
   console.log('  npx evolink-seedance --help      ' + dim('# show this help'));
   console.log('  npx evolink-seedance --version   ' + dim('# show version'));
   console.log('');
   console.log(bold('Options:'));
   console.log('  -y, --yes        ' + dim('Non-interactive mode. Auto-detect skills dir, skip prompts.'));
+  console.log('  --no-open        ' + dim('Do not open the API key page automatically.'));
+  console.log('  --llms           ' + dim('Print the agent installation guide.'));
+  console.log('  --skill          ' + dim('Print the skill definition.'));
   console.log('  --path <dir>     ' + dim('Install to a specific directory (used with -y).'));
   console.log('');
   console.log(bold('What this installer does:'));
@@ -55,11 +62,38 @@ function printHelp() {
   console.log('  4. Guides you through API key setup (skipped in -y mode)');
   console.log('');
   console.log(bold('Environment:'));
-  console.log('  EVOLINK_API_KEY   ' + dim('Your EvoLink API key (get one at https://evolink.ai/signup)'));
+  console.log('  EVOLINK_API_KEY   ' + dim('Your EvoLink API key (get one at https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen)'));
   console.log('');
 }
 
+function printLlms() {
+  const llmsPath = path.join(PKG_ROOT, 'llms-install.md');
+  if (fs.existsSync(llmsPath)) { process.stdout.write(fs.readFileSync(llmsPath, 'utf8')); }
+  else { console.log('# Seedance 2 Video Generation — Agent Installation Guide\nRun: npx evolink-seedance@latest -y --path {SKILLS_DIR}'); }
+}
+
+function printSkill() {
+  const skillPath = path.join(PKG_ROOT, 'SKILL.md');
+  if (fs.existsSync(skillPath)) { process.stdout.write(fs.readFileSync(skillPath, 'utf8')); }
+  else { console.error('SKILL.md not found in package.'); process.exit(1); }
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
+function maybeOpenKeyUrl(url, opts = {}) {
+  if (opts.noOpen) {
+    console.log('--no-open set: not opening a browser.');
+    return false;
+  }
+  return openUrl(url);
+}
+
+function openUrl(url) {
+  const platform = os.platform();
+  const cmd = platform === 'darwin' ? 'open' : platform === 'win32' ? 'cmd' : 'xdg-open';
+  const args = platform === 'win32' ? ['/c', 'start', '', url] : [url];
+  try { spawnSync(cmd, args, { stdio: 'ignore', detached: true }); return true; } catch { return false; }
+}
+
 function ask(rl, question) {
   return new Promise((resolve) => rl.question(question, resolve));
 }
@@ -296,7 +330,7 @@ function checkDependencies() {
 }
 
 // ── Step 4: API key setup ─────────────────────────────────────────────────────
-async function setupApiKey(rl) {
+async function setupApiKey(rl, opts = {}) {
   console.log(bold('\n[4/4] EvoLink API key setup...'));
 
   const existing = process.env.EVOLINK_API_KEY;
@@ -307,9 +341,13 @@ async function setupApiKey(rl) {
   }
 
   console.log(yellow('  ⚠  EVOLINK_API_KEY is not set.'));
+  console.log('EVOLINK_KEY_URL=' + INSTALL_KEY_URL);
+  console.log('AGENT_NEXT_ACTION=open_key_url_then_collect_key');
+  if (opts.noOpen) { console.log('--no-open set: not opening a browser. Browser-free key setup.'); } else { console.log('Opening EVOLINK_KEY_URL in your browser...'); maybeOpenKeyUrl(INSTALL_KEY_URL, opts); }
+  console.log('ENV_VAR_EXPORT=export EVOLINK_API_KEY=your_key_here');
   console.log('');
   console.log('  To generate videos you need a free EvoLink API key.');
-  console.log(bold('  → Sign up at: ') + cyan('https://evolink.ai/signup'));
+  console.log(bold('  → Sign up at: ') + cyan('https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen'));
   console.log('');
 
   const answer = await ask(rl, '  Paste your API key here (or press Enter to skip): ');
@@ -367,11 +405,14 @@ function printSuccess(installPath) {
   console.log('     ' + dim('export EVOLINK_API_KEY=your_key  (or add to .zshrc/.bashrc)'));
   console.log('  2. ' + dim('Open OpenClaw and load the skill:'));
   console.log('     ' + cyan('seedance-2-video-gen'));
+  console.log('  The skill is ready. Use this skill by asking your agent: "Generate a 4-second 480p product reveal video"');
+  console.log('  Starter template 1 · estimated credits: under 10 · "Generate a 4-second 480p product reveal video"');
+  console.log('  Starter template 2 · estimated credits: under 10 · "Animate one product image into a 4-second 480p video"');
   console.log('  3. ' + dim('Start generating videos! Example:'));
   console.log('     ' + dim('"Generate a 5-second 720p video of a sunset over the ocean"'));
   console.log('');
-  console.log(dim('  Docs:      https://github.com/EvoLinkAI/seedance2-video-gen-skill-for-openclaw'));
-  console.log(dim('  Dashboard: https://evolink.ai/dashboard'));
+  console.log(dim('  Docs:      https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw'));
+  console.log(dim('  Dashboard: https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen'));
   console.log(dim('  Support:   https://evolink.ai'));
   console.log('');
 }
@@ -388,9 +429,13 @@ async function main() {
   const args = process.argv.slice(2);
 
   if (args.includes('--version') || args.includes('-v')) {
-    console.log('2.0.0');
+    console.log('2.0.6');
     process.exit(0);
   }
+
+  if (args.includes('--llms')) { printLlms(); process.exit(0); }
+
+  if (args.includes('--skill')) { printSkill(); process.exit(0); }
 
   if (args.includes('--help') || args.includes('-h')) {
     printHelp();
@@ -399,13 +444,14 @@ async function main() {
 
   const silent = args.includes('--yes') || args.includes('-y');
   const targetPath = getArgValue(args, '--path');
+  const noOpen = args.includes('--no-open');
 
   printBanner();
 
   if (silent) {
     // Non-interactive mode — no readline, no prompts
     try {
-      const opts = { silent: true, targetPath };
+      const opts = { silent: true, targetPath, noOpen };
       const skillsDir = await detectSkillsDir(null, opts);
       const installPath = await copySkillFiles(skillsDir, null, opts);
       checkDependencies();
@@ -417,7 +463,11 @@ async function main() {
       } else {
         console.log(bold('\n[4/4] EvoLink API key setup...'));
         console.log(yellow('  ⚠  EVOLINK_API_KEY is not set.'));
-        console.log(dim('    Get one at: https://evolink.ai/signup'));
+  console.log('EVOLINK_KEY_URL=' + INSTALL_KEY_URL);
+  console.log('AGENT_NEXT_ACTION=open_key_url_then_collect_key');
+  if (opts.noOpen) { console.log('--no-open set: not opening a browser. Browser-free key setup.'); } else { console.log('Opening EVOLINK_KEY_URL in your browser...'); maybeOpenKeyUrl(INSTALL_KEY_URL, opts); }
+  console.log('ENV_VAR_EXPORT=export EVOLINK_API_KEY=your_key_here');
+        console.log(dim('    Get one at: https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen'));
         console.log(dim('    Then run:   export EVOLINK_API_KEY=your_key'));
       }
 
@@ -447,7 +497,7 @@ async function main() {
     const skillsDir = await detectSkillsDir(rl, opts);
     const installPath = await copySkillFiles(skillsDir, rl, opts);
     checkDependencies();
-    await setupApiKey(rl);
+    await setupApiKey(rl, { noOpen });
     printSuccess(installPath);
   } catch (err) {
     console.error(red('\n  ✗ Installation failed: ') + err.message);

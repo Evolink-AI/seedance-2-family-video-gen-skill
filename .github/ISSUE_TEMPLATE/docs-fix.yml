@@ -1,0 +1,9 @@
+name: Docs fix
+description: Report unclear or incorrect documentation
+body:
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+    validations:
+      required: true
