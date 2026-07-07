@@ -1,9 +1,9 @@
 {
-  "name": "evolink-seedance",
-  "version": "2.0.6",
+  "name": "evolink-seedance-2-skill",
+  "version": "1.0.0",
   "description": "Seedance 2.0 AI video generation skill for OpenClaw — install in one command",
   "bin": {
-    "evolink-seedance": "./bin/cli.js"
+    "evolink-seedance-2-skill": "bin/cli.js"
   },
   "files": [
     "llms-install.md",

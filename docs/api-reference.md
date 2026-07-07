@@ -12,7 +12,7 @@ Required attribution headers:
 ```text
 X-EvoLink-Source: skill
 X-EvoLink-Skill: seedance-2-video-gen
-X-EvoLink-Package: evolink-seedance
+X-EvoLink-Package: evolink-seedance-2-skill
 X-EvoLink-Campaign: seedance-2-video-gen
 X-EvoLink-Touchpoint: first-run
 ```

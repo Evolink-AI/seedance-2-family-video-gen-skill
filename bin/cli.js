@@ -39,14 +39,14 @@ function printBanner() {
 function printHelp() {
   printBanner();
   console.log(bold('Usage:'));
-  console.log('  npx evolink-seedance            ' + dim('# interactive installer'));
-  console.log('  npx evolink-seedance -y          ' + dim('# non-interactive (for AI agents / CI)'));
-  console.log('  npx evolink-seedance -y --path <dir>  ' + dim('# install to specific directory'));
-  console.log('  npx evolink-seedance --llms      ' + dim('# print agent installation guide'));
-  console.log('  npx evolink-seedance --skill     ' + dim('# print SKILL.md (skill definition)'));
-  console.log('  npx evolink-seedance --no-open   ' + dim('# install without opening the API key page'));
-  console.log('  npx evolink-seedance --help      ' + dim('# show this help'));
-  console.log('  npx evolink-seedance --version   ' + dim('# show version'));
+  console.log('  npx evolink-seedance-2-skill            ' + dim('# interactive installer'));
+  console.log('  npx evolink-seedance-2-skill -y          ' + dim('# non-interactive (for AI agents / CI)'));
+  console.log('  npx evolink-seedance-2-skill -y --path <dir>  ' + dim('# install to specific directory'));
+  console.log('  npx evolink-seedance-2-skill --llms      ' + dim('# print agent installation guide'));
+  console.log('  npx evolink-seedance-2-skill --skill     ' + dim('# print SKILL.md (skill definition)'));
+  console.log('  npx evolink-seedance-2-skill --no-open   ' + dim('# install without opening the API key page'));
+  console.log('  npx evolink-seedance-2-skill --help      ' + dim('# show this help'));
+  console.log('  npx evolink-seedance-2-skill --version   ' + dim('# show version'));
   console.log('');
   console.log(bold('Options:'));
   console.log('  -y, --yes        ' + dim('Non-interactive mode. Auto-detect skills dir, skip prompts.'));
@@ -69,7 +69,7 @@ function printHelp() {
 function printLlms() {
   const llmsPath = path.join(PKG_ROOT, 'llms-install.md');
   if (fs.existsSync(llmsPath)) { process.stdout.write(fs.readFileSync(llmsPath, 'utf8')); }
-  else { console.log('# Seedance 2 Video Generation — Agent Installation Guide\nRun: npx evolink-seedance@latest -y --path {SKILLS_DIR}'); }
+  else { console.log('# Seedance 2 Video Generation — Agent Installation Guide\nRun: npx evolink-seedance-2-skill@latest -y --path {SKILLS_DIR}'); }
 }
 
 function printSkill() {
@@ -376,7 +376,7 @@ async function setupApiKey(rl, opts = {}) {
 
   if (!addToRc.trim().toLowerCase().startsWith('n')) {
     try {
-      fs.appendFileSync(rcFile, `\n# EvoLink API key (added by evolink-seedance installer)\n${exportLine}\n`);
+      fs.appendFileSync(rcFile, `\n# EvoLink API key (added by evolink-seedance-2-skill installer)\n${exportLine}\n`);
       console.log(green(`  ✓ Added to ${rcFile}`));
       console.log(dim(`    Run: source ${rcFile}  to activate in current shell`));
     } catch (err) {

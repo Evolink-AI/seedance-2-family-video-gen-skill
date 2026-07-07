@@ -13,7 +13,7 @@ npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openc
 If the skills registry CLI is unavailable, use this fallback/direct npm installer:
 
 ```bash
-npx evolink-seedance@latest -y --path {SKILLS_DIR}
+npx evolink-seedance-2-skill@latest -y --path {SKILLS_DIR}
 ```
 
 Replace `{SKILLS_DIR}` with your skills directory:
@@ -62,7 +62,7 @@ This credits endpoint does not create a generation task.
 ## Step 4: Load The Skill Definition
 
 ```bash
-npx evolink-seedance@latest --skill
+npx evolink-seedance-2-skill@latest --skill
 ```
 
 Or read:
@@ -95,9 +95,9 @@ Use one of these after key validation for the first real call unless the user ap
 | Command | Purpose |
 |---|---|
 | `npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw` | Preferred Agent install path |
-| `npx evolink-seedance --llms` | Print this installation guide |
-| `npx evolink-seedance --skill` | Print the SKILL.md definition |
-| `npx evolink-seedance -y --path <dir>` | Fallback silent install to a directory |
-| `npx evolink-seedance --no-open` | Install without opening the API key page |
-| `npx evolink-seedance --help` | Show all options |
-| `npx evolink-seedance --version` | Show version |
+| `npx evolink-seedance-2-skill --llms` | Print this installation guide |
+| `npx evolink-seedance-2-skill --skill` | Print the SKILL.md definition |
+| `npx evolink-seedance-2-skill -y --path <dir>` | Fallback silent install to a directory |
+| `npx evolink-seedance-2-skill --no-open` | Install without opening the API key page |
+| `npx evolink-seedance-2-skill --help` | Show all options |
+| `npx evolink-seedance-2-skill --version` | Show version |

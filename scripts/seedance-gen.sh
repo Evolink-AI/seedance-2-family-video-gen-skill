@@ -377,7 +377,7 @@ submit_generation() {
         -H "Content-Type: application/json" \
         -H "X-EvoLink-Source: skill" \
         -H "X-EvoLink-Skill: seedance-2-video-gen" \
-        -H "X-EvoLink-Package: evolink-seedance" \
+        -H "X-EvoLink-Package: evolink-seedance-2-skill" \
         -H "X-EvoLink-Campaign: seedance-2-video-gen" \
         -H "X-EvoLink-Touchpoint: first-run" \
         -d "$payload" 2>&1) || true
@@ -460,7 +460,7 @@ poll_task() {
                 -H "Authorization: Bearer ${EVOLINK_API_KEY}" \
                 -H "X-EvoLink-Source: skill" \
                 -H "X-EvoLink-Skill: seedance-2-video-gen" \
-                -H "X-EvoLink-Package: evolink-seedance" \
+                -H "X-EvoLink-Package: evolink-seedance-2-skill" \
                 -H "X-EvoLink-Campaign: seedance-2-video-gen" \
                 -H "X-EvoLink-Touchpoint: status-poll" 2>&1) || true
 

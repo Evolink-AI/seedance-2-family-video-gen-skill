@@ -55,7 +55,7 @@ Primary Agent install command:
 npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
 ```
 
-The npm installer is a fallback/direct CLI path: `npx evolink-seedance@latest -y --path <skills-dir>`.
+The npm installer is a fallback/direct CLI path: `npx evolink-seedance-2-skill@latest -y --path <skills-dir>`.
 
 ## API Quick Start
 
@@ -93,7 +93,7 @@ Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
 </p>
 
 ```bash
-npx evolink-seedance -y
+npx evolink-seedance-2-skill -y
 export EVOLINK_API_KEY="your_key_here"
 
 curl --request POST \
@@ -143,19 +143,19 @@ npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openc
 ### Install via npm (Recommended)
 
 ```bash
-npx evolink-seedance
+npx evolink-seedance-2-skill
 ```
 
 Or non-interactive (for AI agents / CI):
 
 ```bash
-npx evolink-seedance -y
+npx evolink-seedance-2-skill -y
 ```
 
 Install to a specific directory:
 
 ```bash
-npx evolink-seedance -y --path ~/.claude/skills
+npx evolink-seedance-2-skill -y --path ~/.claude/skills
 ```
 
 ### Manual Install

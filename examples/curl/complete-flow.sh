@@ -2,7 +2,7 @@
 set -euo pipefail
 
 API_BASE="https://api.evolink.ai"
-PACKAGE="evolink-seedance"
+PACKAGE="evolink-seedance-2-skill"
 SKILL="seedance-2-video-gen"
 CAMPAIGN="seedance-2-video-gen"
 
