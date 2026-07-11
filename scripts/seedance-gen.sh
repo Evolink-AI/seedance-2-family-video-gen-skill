@@ -2,7 +2,7 @@
 
 # Seedance 2.0 Video Generation Script
 # Usage: ./seedance-gen.sh "prompt" [options]
-# Models: text-to-video | image-to-video | reference-to-video (auto-detected)
+# Models: Standard | Fast | Mini x text | image | reference
 # Requires: jq, curl
 # API endpoint: https://api.evolink.ai (hardcoded, not configurable)
 
@@ -27,6 +27,8 @@ AUDIO_URLS=""
 WEB_SEARCH="false"
 CALLBACK_URL=""
 EXPLICIT_MODE=""
+TIER="standard"
+DRY_RUN="false"
 SELECTED_MODEL=""
 PROMPT=""
 GLOBAL_TASK_ID=""
@@ -88,21 +90,28 @@ parse_args() {
         error "Usage: $0 \"prompt\" [options]
 
 Models (auto-detected from inputs, or use --mode to override):
-  text:      no media inputs       -> seedance-2.0-text-to-video
-  image:     1-2 images            -> seedance-2.0-image-to-video
-  reference: videos/audio/3+ imgs  -> seedance-2.0-reference-to-video
+  text:      no media inputs
+  image:     1-2 images
+  reference: videos/audio/3+ imgs
+
+Tiers:
+  standard:  best quality; supports 480p, 720p, and 1080p (default)
+  fast:      faster generation; supports 480p and 720p
+  mini:      lowest-cost generation; supports 480p and 720p
 
 Options:
   --image <url[,url]>         Reference images (comma-separated; 1-2 for image mode, 0-9 for reference)
   --video <url>               Reference video URL (repeatable, 0-3, reference mode only)
   --audio <url>               Reference audio URL (repeatable, 0-3, reference mode only)
   --duration <4-15>           Video duration in seconds (default: 5)
-  --quality <480p|720p>       Video resolution (default: 720p)
+  --tier <standard|fast|mini> Model tier (default: standard)
+  --quality <480p|720p|1080p> Video resolution (1080p: standard only)
   --aspect-ratio <ratio>      16:9, 9:16, 1:1, 4:3, 3:4, 21:9, adaptive (default: 16:9)
   --no-audio                  Disable auto-generated audio
   --web-search                Enable web search for enhanced timeliness (text mode only)
   --callback <https://...>    HTTPS callback URL for async notification
   --mode <text|image|reference>  Force model selection (overrides auto-detection)
+  --dry-run                   Print validated JSON payload without calling the API
 
 Examples:
   $0 \"A serene sunset over ocean waves\"
@@ -146,8 +155,15 @@ Examples:
                 ;;
             --quality)
                 QUALITY="$2"
-                if [[ ! "$QUALITY" =~ ^(480p|720p)$ ]]; then
-                    error "Quality must be 480p or 720p"
+                if [[ ! "$QUALITY" =~ ^(480p|720p|1080p)$ ]]; then
+                    error "Quality must be 480p, 720p, or 1080p"
+                fi
+                shift 2
+                ;;
+            --tier)
+                TIER="$2"
+                if [[ ! "$TIER" =~ ^(standard|fast|mini)$ ]]; then
+                    error "Tier must be one of: standard, fast, mini"
                 fi
                 shift 2
                 ;;
@@ -180,6 +196,10 @@ Examples:
                 fi
                 shift 2
                 ;;
+            --dry-run)
+                DRY_RUN="true"
+                shift
+                ;;
             *)
                 error "Unknown parameter: $1"
                 ;;
@@ -208,29 +228,35 @@ select_model() {
         audio_count=${#_auds[@]}
     fi
 
-    # Select model
+    local workflow
     if [[ -n "$EXPLICIT_MODE" ]]; then
-        case "$EXPLICIT_MODE" in
-            text)      SELECTED_MODEL="seedance-2.0-text-to-video" ;;
-            image)     SELECTED_MODEL="seedance-2.0-image-to-video" ;;
-            reference) SELECTED_MODEL="seedance-2.0-reference-to-video" ;;
-        esac
+        workflow="$EXPLICIT_MODE"
     elif [[ $vid_count -gt 0 || $audio_count -gt 0 || $img_count -gt 2 ]]; then
-        SELECTED_MODEL="seedance-2.0-reference-to-video"
+        workflow="reference"
     elif [[ $img_count -ge 1 && $img_count -le 2 ]]; then
-        SELECTED_MODEL="seedance-2.0-image-to-video"
+        workflow="image"
     else
-        SELECTED_MODEL="seedance-2.0-text-to-video"
+        workflow="text"
+    fi
+
+    if [[ "$TIER" == "standard" ]]; then
+        SELECTED_MODEL="seedance-2.0-${workflow}-to-video"
+    else
+        SELECTED_MODEL="seedance-2.0-${TIER}-${workflow}-to-video"
+    fi
+
+    if [[ "$QUALITY" == "1080p" && "$TIER" != "standard" ]]; then
+        error "1080p is supported only by Standard models. Use --tier standard or choose 480p/720p."
     fi
 
     # Cross-validation
-    case "$SELECTED_MODEL" in
-        "seedance-2.0-text-to-video")
+    case "$workflow" in
+        "text")
             if [[ $img_count -gt 0 || $vid_count -gt 0 || $audio_count -gt 0 ]]; then
                 error "Text-to-video mode does not accept image, video, or audio inputs. Use --mode image or --mode reference instead."
             fi
             ;;
-        "seedance-2.0-image-to-video")
+        "image")
             if [[ $img_count -lt 1 || $img_count -gt 2 ]]; then
                 error "Image-to-video mode requires 1-2 images (1 for first-frame, 2 for first+last-frame). Got $img_count images."
             fi
@@ -238,7 +264,7 @@ select_model() {
                 error "Image-to-video mode does not accept video or audio inputs. Use --mode reference instead."
             fi
             ;;
-        "seedance-2.0-reference-to-video")
+        "reference")
             if [[ $img_count -eq 0 && $vid_count -eq 0 ]]; then
                 error "Reference-to-video mode requires at least 1 image or 1 video."
             fi
@@ -255,8 +281,8 @@ select_model() {
     esac
 
     # Warn if web_search used with non-text model
-    if [[ "$WEB_SEARCH" == "true" && "$SELECTED_MODEL" != "seedance-2.0-text-to-video" ]]; then
-        warn "web_search is only supported by text-to-video model; ignoring."
+    if [[ "$WEB_SEARCH" == "true" && ( "$workflow" != "text" || "$TIER" == "mini" ) ]]; then
+        warn "web_search is supported only by Standard and Fast text-to-video models; ignoring."
         WEB_SEARCH="false"
     fi
 }
@@ -329,11 +355,11 @@ handle_error() {
     case $status_code in
         401)
             error "Invalid API key.
--> Check your key at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
+-> Check your key at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
             ;;
         402)
             error "Insufficient account balance.
--> Add credits at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
+-> Add credits at: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
             ;;
         429)
             error "Rate limit exceeded. Please wait a few seconds and try again."
@@ -428,7 +454,7 @@ poll_task() {
         if [[ $elapsed -gt $MAX_POLL_SECONDS ]]; then
             echo "POLL_TIMEOUT: task_id=${task_id}"
             warn "Polling timed out after $((MAX_POLL_SECONDS / 60)) minutes. The video may still be processing on the server."
-            warn "Check your dashboard: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
+            warn "Check your dashboard: https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"
             exit 1
         fi
 
@@ -530,10 +556,15 @@ poll_task() {
 # Main execution
 main() {
     check_dependencies
-    check_api_key
     parse_args "$@"
     select_model
 
+    if [[ "$DRY_RUN" == "true" ]]; then
+        build_payload
+        exit 0
+    fi
+
+    check_api_key
     submit_generation
     poll_task "$GLOBAL_TASK_ID" "$GLOBAL_ESTIMATED_TIME"
 }

@@ -77,7 +77,11 @@ Or read:
 EVOLINK_API_KEY=$EVOLINK_API_KEY {SKILLS_DIR}/seedance-2-video-gen/scripts/seedance-gen.sh "A calm product reveal on a white studio background" --dry-run
 ```
 
-If you see a JSON payload with `"model": "seedance-2.0-text-to-video"`, the installation is correct.
+If you see a JSON payload with `"model": "seedance-2.0-text-to-video"`, the installation is correct. Verify all nine routes with:
+
+```bash
+bash {SKILLS_DIR}/seedance-2-video-gen/examples/curl/test-model-routing.sh
+```
 
 After verification, tell the user: "The skill is ready. Use it by asking: Generate a 4-second 480p product reveal video"
 
@@ -87,8 +91,18 @@ Use one of these after key validation for the first real call unless the user ap
 
 | Template | Estimated credits | Prompt |
 |---|---:|---|
-| Starter template 1 | under 10 credits | `Generate a 4-second 480p product reveal video` |
-| Starter template 2 | under 10 credits | `Animate one product image into a 4-second 480p video` |
+| Starter template 1 | about 11 credits on Mini | `Generate a 4-second 480p fixed-camera paper boat video with Mini` |
+| Starter template 2 | about 11 credits on Mini | `Generate a 4-second 480p fixed-camera product reveal with Mini` |
+
+The observed 2026-07-10 Mini smoke used 10.23 credits. Treat this as an estimate and inspect the returned `usage`; current dashboard billing remains authoritative.
+
+## Choose a tier
+
+- `--tier mini`: lowest cost.
+- `--tier fast`: faster iteration.
+- `--tier standard`: maximum supported quality and the only tier that supports 1080p.
+
+All tiers support text, image, and reference workflows. If the user asks for the cheapest result, use `--tier mini --duration 4 --quality 480p`. Otherwise explain the trade-off instead of silently choosing.
 
 ## Available Commands
 

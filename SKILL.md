@@ -1,6 +1,6 @@
 ---
 name: seedance-2-video-gen
-description: Seedance 2.0 AI video generation via EvoLink API. Three modes — text-to-video, image-to-video (1-2 images), reference-to-video (images + videos + audio). Auto audio (voice, SFX, BGM). Works with OpenClaw, Claude Code, Cursor. Powered by ByteDance Seedance 2.0.
+description: Seedance 2.0 AI video generation via EvoLink API. Standard, Fast, and Mini tiers across text-to-video, image-to-video, and reference-to-video. Auto audio (voice, SFX, BGM). Works with OpenClaw, Claude Code, Cursor.
 homepage: https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
 metadata: {"openclaw":{"homepage":"https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw","requires":{"bins":["jq","curl"],"env":["EVOLINK_API_KEY"]},"primaryEnv":"EVOLINK_API_KEY"}}
 ---
@@ -14,6 +14,14 @@ Activate this skill when the user asks to generate, create, animate, remix, edit
 Keywords: seedance, video generation, text-to-video, image-to-video, reference-to-video, AI video, EvoLink video
 
 An interactive AI video generation assistant powered by the Seedance 2.0 model via EvoLink API.
+
+## When Not to Activate
+
+Do not activate this skill for model pricing comparisons, general video-production education, prompt critique without generation intent, account support, or unrelated image-only work. Answer those questions directly or route them to the relevant documentation.
+
+## Supported Inputs and Output
+
+Inputs may include a text concept, 1-2 first/last-frame images, multimodal reference images/video/audio, desired duration, tier, resolution, aspect ratio, and audio preference. The runtime output is an asynchronous task followed by a final video URL. Before submission, translate the user's intent into one coherent generation prompt plus validated API settings.
 
 ## Script Location
 
@@ -39,10 +47,10 @@ Do NOT list features, show a menu, or dump instructions. Just ask one question t
 
 | Template | Estimated credits | Prompt |
 |---|---:|---|
-| Starter template 1 | under 10 credits | `Generate a 4-second 480p product reveal video` |
-| Starter template 2 | under 10 credits | `Animate one product image into a 4-second 480p video` |
+| Starter template 1 | about 11 credits on Mini | `Generate a 4-second 480p fixed-camera paper boat video with Mini` |
+| Starter template 2 | about 11 credits on Mini | `Generate a 4-second 480p fixed-camera product reveal with Mini` |
 
-After the call, inspect the live `usage` object and remind the user that dashboard billing is the source of truth.
+The 2026-07-10 real smoke used 10.23 credits for a 4-second 480p Mini text video. This is evidence, not a guaranteed fixed price. Inspect the live `usage` object after every call and remind the user that dashboard billing is the source of truth.
 
 ## Core Principles
 
@@ -50,6 +58,33 @@ After the call, inspect the live `usage` object and remind the user that dashboa
 2. **Let the user drive the creative vision** — If they have an idea, use their words. If they need inspiration, offer suggestions and let them choose or refine.
 3. **Smart context awareness** — Recognize what the user has already provided and only ask about missing pieces.
 4. **Intent first** — If the user's intent is unclear, confirm what they want before proceeding.
+
+## Video Prompt Construction
+
+For every generation prompt, make the time-based behavior explicit and keep it achievable within 4-15 seconds:
+
+- Opening frame: subject, environment, composition, and starting state.
+- Main action: one clear action with realistic pacing for the requested duration.
+- Camera: shot size and one compatible movement such as fixed camera, pan, orbit, or slow dolly.
+- Motion: subject and background movement; avoid contradictory or physically impossible instructions.
+- Continuity: preserve the subject, product shape, colors, clothing, environment, and lighting throughout the shot.
+- Ending frame: define the intended final state instead of ending mid-action.
+- Audio: state dialogue, ambience, sound effects, music, or silence only when relevant.
+
+Prefer one continuous shot for short clips. If the user asks for a multi-shot story, explain that each shot should normally be generated separately, then offer a shot list rather than cramming incompatible camera cuts into one call. Do not promise exact identity, logo, character, lip-sync, or frame-level consistency.
+
+Before submitting, summarize the payload in this stable format:
+
+```text
+Tier / workflow:
+Duration / resolution / aspect ratio:
+Opening frame:
+Main action and pacing:
+Camera movement:
+Continuity constraints:
+Ending frame:
+Audio:
+```
 
 ## Flow
 
@@ -76,10 +111,11 @@ Check what the user has already provided and **only ask about what's missing**:
 
 | Parameter | What to tell the user | Required? |
 |-----------|----------------------|-----------|
-| **Mode / intent** | Three modes available: (1) **Text-to-video** — describe a scene, get a video; (2) **Image-to-video** — animate from 1-2 reference photos; (3) **Reference-to-video** — remix/edit/extend using images, video clips, and audio. Determine which mode fits from context, or ask if unclear. | Yes |
+| **Mode / intent** | Three workflows: (1) **Text-to-video** — prompt only; (2) **Image-to-video** — animate 1-2 images; (3) **Reference-to-video** — remix/edit/extend with images, video, and audio. Determine the workflow from context, or ask if unclear. | Yes |
+| **Tier** | **Mini** is lowest cost; **Fast** prioritizes speed; **Standard** supports the highest quality and is required for 1080p. If the user has not expressed a cost/speed/quality preference, explain these choices instead of silently choosing. | Yes |
 | **Video content** (prompt) | Ask what they'd like to see. If they need inspiration, suggest a few ideas for them to pick from or build on. | Yes |
 | **Duration** | Supported: **4–15 seconds**. Ask how long they want. | Yes |
-| **Resolution** | Supported: **480p** / **720p**. Ask their preference. | Yes |
+| **Resolution** | All tiers support **480p / 720p**. Only Standard supports **1080p**. | Yes |
 | **Audio** | The model can auto-generate **voice, sound effects, and background music** matching the video. Ask if they want audio enabled. | Yes |
 | **Aspect ratio** | Supported: 16:9, 9:16, 1:1, 4:3, 3:4, 21:9, **adaptive** (model chooses best fit). Only mention if relevant or if user asks. | Optional |
 | **Reference images** | Image-to-video: 1–2 images (JPEG/PNG/WebP, ≤30MB each). 1 image = first-frame animation; 2 images = first+last frame interpolation. Reference mode: 0–9 images. | Conditional |
@@ -90,7 +126,7 @@ Check what the user has already provided and **only ask about what's missing**:
 **Smart gathering rules — STRICT:**
 - **Ask ALL missing parameters in ONE single message.** Never split into multiple rounds of questions.
 - **Never ask the same question twice.** If the user already answered a parameter, it is final — do not re-ask it.
-- **Offer defaults upfront** so users can say "default is fine": `5s / 720p / audio on / 16:9`. If the user says "default" or "just go", use these values immediately.
+- **Offer defaults upfront** so users can say "default is fine": `Standard / 5s / 720p / audio on / 16:9`. If the user explicitly asks for cheapest, use `Mini / 4s / 480p`.
 - User gives everything at once → Confirm and generate immediately, no further questions.
 - User gives partial info → Ask only the remaining missing required fields, all in one message.
 - If user provides images/videos/audio, auto-detect the appropriate mode — no need to ask explicitly.
@@ -116,6 +152,12 @@ export EVOLINK_API_KEY=your_key_here
 
 # Text-to-video (basic)
 ./scripts/seedance-gen.sh "A serene sunset over ocean waves" --duration 5 --quality 720p
+
+# Lowest-cost Mini text-to-video
+./scripts/seedance-gen.sh "A calm product reveal" --tier mini --mode text --duration 4 --quality 480p
+
+# Fast text-to-video
+./scripts/seedance-gen.sh "A fast cinematic concept test" --tier fast --mode text --duration 4 --quality 480p
 
 # Text-to-video with web search (time-sensitive content)
 ./scripts/seedance-gen.sh "Today's weather in Tokyo with animated forecast" --duration 8 --quality 720p --web-search
@@ -172,16 +214,34 @@ Provide friendly, actionable messages:
 | Image file too large (400) | "One of the images is too large. Each image must be ≤30MB" |
 | Service unavailable (503) | "The service is temporarily busy. Let's try again in a minute" |
 
+## Safety, Copyright, and Reference Boundaries
+
+- Refuse disallowed sexual content involving minors, extremist promotion, instructions facilitating serious wrongdoing, and other prohibited generation requests.
+- Do not claim the user owns a reference image, video, logo, character, voice, or music. Ask them to confirm permission when commercial use or identity rights are unclear.
+- Do not fabricate missing reference assets or replace inaccessible URLs with invented ones.
+- Avoid presenting generated depictions as authentic evidence of real events or real people.
+- For copyrighted characters, celebrity likenesses, brands, and logos, avoid guarantees and flag potential commercial-use or personality-right risks.
+- Preserve user-provided constraints across revisions; change only what the user asks to revise.
+
+## Edge Cases and Revision Handling
+
+- If the requested action cannot fit the duration, reduce the number of events or propose separate shots.
+- If camera and subject movement conflict, keep the user's primary action and simplify the camera.
+- If a user requests 1080p on Fast or Mini, explain that 1080p requires Standard.
+- If reference media violates count, size, duration, or format limits, stop before submission and state the exact correction.
+- On revision, retain approved tier, workflow, subject, duration, framing, visual identity, and audio choices unless the user explicitly changes them.
+
 ## Model Capabilities Summary
 
 Use this when the user asks what the model can do:
 
-- **Text-to-video** (`seedance-2.0-text-to-video`): Describe a scene, get a video. Optional web search for time-sensitive content.
-- **Image-to-video** (`seedance-2.0-image-to-video`): 1 image = animate from first frame; 2 images = first+last frame interpolation.
-- **Reference-to-video** (`seedance-2.0-reference-to-video`): Multimodal — combine images (0–9), video clips (0–3), audio (0–3), and a text prompt to create, edit, or extend video. Use natural language in the prompt to reference inputs by number.
+- **Tiers**: Mini for lowest cost, Fast for speed, Standard for maximum supported quality and 1080p.
+- **Text-to-video**: Standard `seedance-2.0-text-to-video`, Fast `seedance-2.0-fast-text-to-video`, Mini `seedance-2.0-mini-text-to-video`.
+- **Image-to-video**: Standard/Fast/Mini IDs follow the same tier naming; 1 image = first frame, 2 images = first+last frame.
+- **Reference-to-video**: Standard/Fast/Mini IDs accept images (0–9), videos (0–3), audio (0–3), but require at least one image or video.
 - **Audio generation**: Auto-generates synchronized voice, sound effects, and background music (enabled by default).
 - **Duration**: 4–15 seconds
-- **Resolution**: 480p, 720p
+- **Resolution**: 480p and 720p for all tiers; 1080p for Standard only
 - **Aspect ratios**: 16:9, 9:16, 1:1, 4:3, 3:4, 21:9, adaptive
 - **Limitation**: Realistic human faces are restricted
 

@@ -19,13 +19,13 @@ Authorization: Bearer {EVOLINK_API_KEY}
 
 ## Models Overview
 
-Seedance 2.0 provides three models, all sharing the same generation endpoint:
+Seedance 2.0 provides nine models, all sharing the same generation endpoint. The full tier/workflow matrix is maintained in `docs/model-matrix.md`.
 
-| Model | Use Case | Key Inputs |
-|-------|----------|------------|
-| `seedance-2.0-text-to-video` | Generate video from text prompt only | prompt (+ optional web search) |
-| `seedance-2.0-image-to-video` | Animate from 1-2 reference images | prompt + 1-2 images |
-| `seedance-2.0-reference-to-video` | Multimodal remix, edit, extend video | prompt + images(0-9) + videos(0-3) + audio(0-3) |
+| Tier | Text-to-Video | Image-to-Video | Reference-to-Video |
+|---|---|---|---|
+| Standard | `seedance-2.0-text-to-video` | `seedance-2.0-image-to-video` | `seedance-2.0-reference-to-video` |
+| Fast | `seedance-2.0-fast-text-to-video` | `seedance-2.0-fast-image-to-video` | `seedance-2.0-fast-reference-to-video` |
+| Mini | `seedance-2.0-mini-text-to-video` | `seedance-2.0-mini-image-to-video` | `seedance-2.0-mini-reference-to-video` |
 
 ## Common Parameters
 
@@ -36,21 +36,21 @@ These parameters are shared across all three models:
 | `model` | string | — | See models above | **Required.** Model name |
 | `prompt` | string | — | — | **Required.** Text description of desired video. Supports Chinese and English. Recommended: ≤500 chars (Chinese) or ≤1000 words (English) |
 | `duration` | integer | `5` | `4`–`15` | Video duration in seconds |
-| `quality` | string | `"720p"` | `"480p"`, `"720p"` | Video resolution |
+| `quality` | string | `"720p"` | `"480p"`, `"720p"`, `"1080p"` | 1080p is supported only by Standard models |
 | `aspect_ratio` | string | `"16:9"` | `"16:9"`, `"9:16"`, `"1:1"`, `"4:3"`, `"3:4"`, `"21:9"`, `"adaptive"` | Video aspect ratio. `adaptive` lets the model choose based on inputs |
 | `generate_audio` | boolean | `true` | `true`, `false` | Generate synchronized audio (voice, SFX, music) at no additional charge |
 | `callback_url` | string | — | HTTPS URL | Optional callback for task completion/failure/cancellation. Must be HTTPS, no private IPs, ≤2048 chars. Retries up to 3 times on failure |
 
 ### Aspect Ratio Pixel Values
 
-| Aspect Ratio | 480p | 720p |
-|:------:|:----:|:----:|
-| 16:9 | 864x496 | 1280x720 |
-| 4:3 | 752x560 | 1112x834 |
-| 1:1 | 640x640 | 960x960 |
-| 3:4 | 560x752 | 834x1112 |
-| 9:16 | 496x864 | 720x1280 |
-| 21:9 | 992x432 | 1470x630 |
+| Aspect Ratio | 480p | 720p | 1080p Standard only |
+|:------:|:----:|:----:|:----:|
+| 16:9 | 864x496 | 1280x720 | 1920x1080 |
+| 4:3 | 752x560 | 1112x834 | 1664x1248 |
+| 1:1 | 640x640 | 960x960 | 1440x1440 |
+| 3:4 | 560x752 | 834x1112 | 1248x1664 |
+| 9:16 | 496x864 | 720x1280 | 1080x1920 |
+| 21:9 | 992x432 | 1470x630 | 2206x946 |
 
 ---
 

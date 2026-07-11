@@ -126,7 +126,7 @@ An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://gith
 - **Image-to-video** — animate from 1–2 reference images
 - **Reference-to-video** — combine images, video clips, and audio for remix, editing, or extension
 - **Auto audio** — generate voice, sound effects, and background music
-- **Flexible output** — 4–15 seconds, 480p/720p, multiple aspect ratios
+- **Flexible output** — 4–15 seconds; 480p/720p on all tiers; 1080p on Standard only
 
 📚 Full guide: [awesome-seedance-2-guide](https://github.com/Evolink-AI/awesome-seedance-2-guide)
 

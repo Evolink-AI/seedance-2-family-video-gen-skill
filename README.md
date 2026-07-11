@@ -1,7 +1,20 @@
 # Seedance 2 Video Gen Skill for OpenClaw
 
 <p align="center">
-  <strong>Seedance 2.0 AI video generation for OpenClaw, Claude Code, OpenCode, and Cursor — install in one command.</strong>
+  <strong>Complete Seedance 2.0 Standard, Fast, and Mini API + Agent Skill — install in one command.</strong>
+</p>
+
+<p align="center">
+  <a href="https://docs.evolink.ai/en/api-manual/video-series/seedance2.0/seedance-2.0-overview">
+    <img src="assets/banner.jpg" alt="Seedance-2.0-Standard-Fast-Mini-API-and-Agent-Skill" width="100%" />
+  </a>
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/evolink-seedance-2-skill"><img src="https://img.shields.io/npm/v/evolink-seedance-2-skill?color=cb3837&label=npm" alt="NPM version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+  <a href="https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw/stargazers"><img src="https://img.shields.io/github/stars/Evolink-AI/seedance2-video-gen-skill-for-openclaw?style=flat" alt="GitHub stars"></a>
+  <a href="https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw/commits/main/"><img src="https://img.shields.io/github/last-commit/Evolink-AI/seedance2-video-gen-skill-for-openclaw" alt="Last commit"></a>
 </p>
 
 <p align="center">
@@ -10,8 +23,6 @@
   <a href="#getting-an-api-key">API Key</a> •
   <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen">EvoLink</a>
 </p>
-
-> **AI Agent?** Skip the README, go straight to [**llms-install.md**](llms-install.md).
 
 <!-- release-agent fixed anchors start -->
 <a id="menu"></a>
@@ -57,6 +68,18 @@ npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openc
 
 The npm installer is a fallback/direct CLI path: `npx evolink-seedance-2-skill@latest -y --path <skills-dir>`.
 
+## Complete Seedance 2.0 Family
+
+This is the canonical EvoLink API + Agent Skill repository for all nine Seedance 2.0 models.
+
+| Tier | Best for | Text-to-Video | Image-to-Video | Reference-to-Video | Resolution |
+|---|---|---|---|---|---|
+| Standard | Maximum quality | `seedance-2.0-text-to-video` | `seedance-2.0-image-to-video` | `seedance-2.0-reference-to-video` | 480p, 720p, 1080p |
+| Fast | Faster iteration | `seedance-2.0-fast-text-to-video` | `seedance-2.0-fast-image-to-video` | `seedance-2.0-fast-reference-to-video` | 480p, 720p |
+| Mini | Lowest cost | `seedance-2.0-mini-text-to-video` | `seedance-2.0-mini-image-to-video` | `seedance-2.0-mini-reference-to-video` | 480p, 720p |
+
+See the [complete model matrix](docs/model-matrix.md) and [API reference](docs/api-reference.md).
+
 ## API Quick Start
 
 Use `EVOLINK_API_KEY`, create task -> poll/callback -> final result URL, and inspect [task lifecycle](docs/task-lifecycle.md) plus [API reference](docs/api-reference.md).
@@ -76,8 +99,23 @@ See [docs/api-reference.md](docs/api-reference.md), [docs/response-schema.md](do
 <p align="center">
   <strong>Languages:</strong>
   <a href="README.md">English</a> |
-  <a href="README.zh-CN.md">简体中文</a>
+  <a href="README.es.md">Español</a> |
+  <a href="README.pt.md">Português</a> |
+  <a href="README.ja.md">日本語</a> |
+  <a href="README.ko.md">한국어</a> |
+  <a href="README.de.md">Deutsch</a> |
+  <a href="README.fr.md">Français</a> |
+  <a href="README.tr.md">Türkçe</a> |
+  <a href="README.zh-TW.md">繁體中文</a> |
+  <a href="README.zh-CN.md">简体中文</a> |
+  <a href="README.ru.md">Русский</a>
 </p>
+
+---
+
+> **AI Agent?** Skip the README, go straight to [**llms-install.md**](llms-install.md) for Agent-first installation.
+
+---
 
 ## EvoLink Quick Start
 
@@ -87,13 +125,13 @@ Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
   <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Model Page</strong></a> &nbsp;·&nbsp;
   <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Docs</strong></a> &nbsp;·&nbsp;
   <a href="https://evolink.ai/dashboard/keys?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-video-gen"><strong>API Key</strong></a> &nbsp;·&nbsp;
-  <a href="https://github.com/Evolink-AI/Seedance-2.0-Gateway-Service"><strong>API Examples</strong></a> &nbsp;·&nbsp;
+  <a href="docs/api-reference.md"><strong>API Docs</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2.0-prompts"><strong>Seedance Prompts</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2-guide"><strong>Seedance Guide</strong></a>
 </p>
 
 ```bash
-npx evolink-seedance-2-skill -y
+npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
 export EVOLINK_API_KEY="your_key_here"
 
 curl --request POST \
@@ -101,10 +139,10 @@ curl --request POST \
   --header "Authorization: Bearer ${EVOLINK_API_KEY}" \
   --header 'Content-Type: application/json' \
   --data '{
-    "model": "seedance-2.0-text-to-video",
-    "prompt": "A 5-second cinematic product reveal, slow dolly-in, premium studio lighting",
-    "duration": 5,
-    "quality": "720p",
+    "model": "seedance-2.0-mini-text-to-video",
+    "prompt": "A simple paper boat gently floating on calm water",
+    "duration": 4,
+    "quality": "480p",
     "aspect_ratio": "16:9"
   }'
 ```
@@ -114,7 +152,7 @@ curl --request POST \
 This repository documents the complete first-run lifecycle: create task -> poll/callback -> final result URL. See [task lifecycle](docs/task-lifecycle.md) for `/v1/tasks/{task_id}` polling details.
 
 
-An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) skill powered by [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw). Install the skill and your AI agent gains Seedance 2.0 video generation with three core workflows:
+An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) skill powered by [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw). Install the skill and your AI agent gains three tiers across three workflows.
 
 | Skill | Description | Model |
 |-------|-------------|-------|
@@ -126,7 +164,8 @@ An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://gith
 - **Image-to-video** — animate from 1–2 reference images
 - **Reference-to-video** — combine images, video clips, and audio for remix, editing, or extension
 - **Auto audio** — generate voice, sound effects, and background music
-- **Flexible output** — 4–15 seconds, 480p/720p, multiple aspect ratios
+- **Tier choice** — Mini for lowest cost, Fast for speed, Standard for maximum quality
+- **Flexible output** — 4–15 seconds; 480p/720p for every tier; 1080p for Standard
 
 📚 Full guide: [awesome-seedance-2-guide](https://github.com/Evolink-AI/awesome-seedance-2-guide)
 
@@ -140,7 +179,7 @@ An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://gith
 npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
 ```
 
-### Install via npm (Recommended)
+### Install via npm (Fallback / Direct CLI)
 
 ```bash
 npx evolink-seedance-2-skill
@@ -210,6 +249,12 @@ Generate AI videos through natural conversation with your agent.
 ```bash
 # Text-to-video
 ./scripts/seedance-gen.sh "A serene sunset over ocean waves" --duration 5 --quality 720p
+
+# Lowest-cost Mini
+./scripts/seedance-gen.sh "A simple paper boat on calm water" --tier mini --mode text --duration 4 --quality 480p
+
+# Fast iteration
+./scripts/seedance-gen.sh "A cinematic concept test" --tier fast --mode text --duration 4 --quality 480p
 
 # Image-to-video
 ./scripts/seedance-gen.sh "The camera slowly pushes in" --image "https://assets.evolink.ai/example/scene.jpg" --duration 6 --quality 720p

@@ -29,7 +29,7 @@ function printBanner() {
   console.log(bold(cyan('║') + '                                                          ' + bold(cyan('║'))));
   console.log(bold(cyan('║') + '   ' + bold('🎬  Seedance 2.0 Video Gen Skill Installer') + '           ' + bold(cyan('║'))));
   console.log(bold(cyan('║') + '       ' + dim('for OpenClaw · powered by EvoLink + ByteDance') + '     ' + bold(cyan('║'))));
-  console.log(bold(cyan('║') + '                  ' + dim('v2.0.6') + '                                   ' + bold(cyan('║'))));
+  console.log(bold(cyan('║') + '                  ' + dim('v1.1.0') + '                                   ' + bold(cyan('║'))));
   console.log(bold(cyan('║') + '                                                          ' + bold(cyan('║'))));
   console.log(bold(cyan('╚══════════════════════════════════════════════════════════╝')));
   console.log('');
@@ -278,6 +278,22 @@ async function copySkillFiles(skillsDir, rl, opts = {}) {
     copied++;
   }
 
+  // docs/
+  const docsSrc = path.join(PKG_ROOT, 'docs');
+  if (fs.existsSync(docsSrc)) {
+    copyDir(docsSrc, path.join(destBase, 'docs'));
+    console.log(green('  ✓ ') + 'docs/');
+    copied++;
+  }
+
+  // examples/
+  const examplesSrc = path.join(PKG_ROOT, 'examples');
+  if (fs.existsSync(examplesSrc)) {
+    copyDir(examplesSrc, path.join(destBase, 'examples'));
+    console.log(green('  ✓ ') + 'examples/');
+    copied++;
+  }
+
   console.log(green(`\n  → ${copied} items installed to: ${destBase}`));
   return destBase;
 }
@@ -406,8 +422,9 @@ function printSuccess(installPath) {
   console.log('  2. ' + dim('Open OpenClaw and load the skill:'));
   console.log('     ' + cyan('seedance-2-video-gen'));
   console.log('  The skill is ready. Use this skill by asking your agent: "Generate a 4-second 480p product reveal video"');
-  console.log('  Starter template 1 · estimated credits: under 10 · "Generate a 4-second 480p product reveal video"');
-  console.log('  Starter template 2 · estimated credits: under 10 · "Animate one product image into a 4-second 480p video"');
+  console.log('  Starter template 1 · estimated credits: about 11 on Mini · "Generate a 4-second 480p fixed-camera paper boat video with Mini"');
+  console.log('  Starter template 2 · estimated credits: about 11 on Mini · "Generate a 4-second 480p fixed-camera product reveal with Mini"');
+  console.log('  Observed Mini smoke usage on 2026-07-10: 10.23 credits. Returned usage/dashboard billing is authoritative.');
   console.log('  3. ' + dim('Start generating videos! Example:'));
   console.log('     ' + dim('"Generate a 5-second 720p video of a sunset over the ocean"'));
   console.log('');
@@ -429,7 +446,7 @@ async function main() {
   const args = process.argv.slice(2);
 
   if (args.includes('--version') || args.includes('-v')) {
-    console.log('2.0.6');
+    console.log('1.1.0');
     process.exit(0);
   }
 

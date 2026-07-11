@@ -1,7 +1,7 @@
 # Seedance 2 Video Gen Skill for OpenClaw
 
 <p align="center">
-  <strong>Seedance 2.0 AI video generation for OpenClaw, Claude Code, OpenCode, and Cursor — install in one command.</strong>
+  <strong>Complete Seedance 2.0 Standard, Fast, and Mini API + Agent Skill — install in one command.</strong>
 </p>
 
 <p align="center">
@@ -25,13 +25,13 @@ Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
   <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Model Page</strong></a> &nbsp;·&nbsp;
   <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Docs</strong></a> &nbsp;·&nbsp;
   <a href="https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen"><strong>API Key</strong></a> &nbsp;·&nbsp;
-  <a href="https://github.com/Evolink-AI/Seedance-2.0-Gateway-Service"><strong>API Examples</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw/tree/main/docs"><strong>API Docs</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2.0-prompts"><strong>Seedance Prompts</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2-guide"><strong>Seedance Guide</strong></a>
 </p>
 
 ```bash
-npx evolink-seedance-2-skill -y
+npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
 export EVOLINK_API_KEY="your_key_here"
 
 curl --request POST \
@@ -39,13 +39,21 @@ curl --request POST \
   --header "Authorization: Bearer ${EVOLINK_API_KEY}" \
   --header 'Content-Type: application/json' \
   --data '{
-    "model": "seedance-2.0-text-to-video",
-    "prompt": "A 5-second cinematic product reveal, slow dolly-in, premium studio lighting",
-    "duration": 5,
-    "quality": "720p",
+    "model": "seedance-2.0-mini-text-to-video",
+    "prompt": "A simple paper boat gently floating on calm water",
+    "duration": 4,
+    "quality": "480p",
     "aspect_ratio": "16:9"
   }'
 ```
+
+## All 9 Seedance 2.0 Models
+
+| Tier | Text-to-Video | Image-to-Video | Reference-to-Video | Resolution |
+|---|---|---|---|---|
+| Standard | `seedance-2.0-text-to-video` | `seedance-2.0-image-to-video` | `seedance-2.0-reference-to-video` | 480p, 720p, 1080p |
+| Fast | `seedance-2.0-fast-text-to-video` | `seedance-2.0-fast-image-to-video` | `seedance-2.0-fast-reference-to-video` | 480p, 720p |
+| Mini | `seedance-2.0-mini-text-to-video` | `seedance-2.0-mini-image-to-video` | `seedance-2.0-mini-reference-to-video` | 480p, 720p |
 
 ## What is This?
 
@@ -61,7 +69,8 @@ An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://gith
 - **Image-to-video** — animate from 1–2 reference images
 - **Reference-to-video** — combine images, video clips, and audio for remix, editing, or extension
 - **Auto audio** — generate voice, sound effects, and background music
-- **Flexible output** — 4–15 seconds, 480p/720p, multiple aspect ratios
+- **Tier choice** — Mini for lowest cost, Fast for speed, Standard for maximum quality
+- **Flexible output** — 4–15 seconds; 480p/720p for every tier; 1080p for Standard
 
 📚 Full guide: [awesome-seedance-2-guide](https://github.com/Evolink-AI/awesome-seedance-2-guide)
 
@@ -75,7 +84,7 @@ An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://gith
 npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
 ```
 
-### Install via npm (Recommended)
+### Install via npm (Fallback / Direct CLI)
 
 ```bash
 npx evolink-seedance-2-skill
@@ -133,6 +142,9 @@ Generate AI videos through natural conversation with your agent.
 ```bash
 # Text-to-video
 ./scripts/seedance-gen.sh "A serene sunset over ocean waves" --duration 5 --quality 720p
+
+# Lowest-cost Mini
+./scripts/seedance-gen.sh "A simple paper boat on calm water" --tier mini --mode text --duration 4 --quality 480p
 
 # Image-to-video
 ./scripts/seedance-gen.sh "The camera slowly pushes in" --image "https://assets.evolink.ai/example/scene.jpg" --duration 6 --quality 720p
