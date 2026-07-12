@@ -7,7 +7,7 @@ You are an AI agent. Follow these steps to install and activate the Seedance 2 V
 Run this primary Agent install command:
 
 ```bash
-npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+npx skills add https://github.com/Evolink-AI/seedance-2-family-video-gen-skill
 ```
 
 If the skills registry CLI is unavailable, use this fallback/direct npm installer:
@@ -108,7 +108,7 @@ All tiers support text, image, and reference workflows. If the user asks for the
 
 | Command | Purpose |
 |---|---|
-| `npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw` | Preferred Agent install path |
+| `npx skills add https://github.com/Evolink-AI/seedance-2-family-video-gen-skill` | Preferred Agent install path |
 | `npx evolink-seedance-2-skill --llms` | Print this installation guide |
 | `npx evolink-seedance-2-skill --skill` | Print the SKILL.md definition |
 | `npx evolink-seedance-2-skill -y --path <dir>` | Fallback silent install to a directory |

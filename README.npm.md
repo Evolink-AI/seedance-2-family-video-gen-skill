@@ -22,16 +22,16 @@
 Install the skill, set one key, and let an agent generate Seedance 2.0 videos:
 
 <p align="center">
-  <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Model Page</strong></a> &nbsp;·&nbsp;
-  <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw"><strong>Docs</strong></a> &nbsp;·&nbsp;
+  <a href="https://evolink.ai/seedance-2-0?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-family-video-gen-skill"><strong>Model Page</strong></a> &nbsp;·&nbsp;
+  <a href="https://docs.evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-family-video-gen-skill"><strong>Docs</strong></a> &nbsp;·&nbsp;
   <a href="https://evolink.ai/dashboard/keys?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen"><strong>API Key</strong></a> &nbsp;·&nbsp;
-  <a href="https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw/tree/main/docs"><strong>API Docs</strong></a> &nbsp;·&nbsp;
+  <a href="https://github.com/Evolink-AI/seedance-2-family-video-gen-skill/tree/main/docs"><strong>API Docs</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2.0-prompts"><strong>Seedance Prompts</strong></a> &nbsp;·&nbsp;
   <a href="https://github.com/Evolink-AI/awesome-seedance-2-guide"><strong>Seedance Guide</strong></a>
 </p>
 
 ```bash
-npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+npx skills add https://github.com/Evolink-AI/seedance-2-family-video-gen-skill
 export EVOLINK_API_KEY="your_key_here"
 
 curl --request POST \
@@ -57,7 +57,7 @@ curl --request POST \
 
 ## What is This?
 
-An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) skill powered by [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance2-video-gen-skill-for-openclaw). Install the skill and your AI agent gains Seedance 2.0 video generation with three core workflows:
+An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://github.com/anthropics/claude-code) / [OpenCode](https://github.com/opencode-ai/opencode) skill powered by [EvoLink](https://evolink.ai?utm_source=github&utm_medium=readme&utm_campaign=seedance-2-family-video-gen-skill). Install the skill and your AI agent gains Seedance 2.0 video generation with three core workflows:
 
 | Skill | Description | Model |
 |-------|-------------|-------|
@@ -81,7 +81,7 @@ An [OpenClaw](https://github.com/openclaw/openclaw) / [Claude Code](https://gith
 ### OpenClaw Install
 
 ```bash
-npx skills add https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
+npx skills add https://github.com/Evolink-AI/seedance-2-family-video-gen-skill
 ```
 
 ### Install via npm (Fallback / Direct CLI)
@@ -105,8 +105,8 @@ npx evolink-seedance-2-skill -y --path ~/.claude/skills
 ### Manual Install
 
 ```bash
-git clone https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw.git
-cd seedance2-video-gen-skill-for-openclaw
+git clone https://github.com/Evolink-AI/seedance-2-family-video-gen-skill.git
+cd seedance-2-family-video-gen-skill
 openclaw skills add .
 ```
 

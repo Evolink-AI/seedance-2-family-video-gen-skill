@@ -32,7 +32,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw"
+    "url": "https://github.com/Evolink-AI/seedance-2-family-video-gen-skill"
   },
   "homepage": "https://evolink.ai/seedance-2-0?utm_source=npm&utm_medium=package&utm_campaign=seedance-2-video-gen",
   "engines": {

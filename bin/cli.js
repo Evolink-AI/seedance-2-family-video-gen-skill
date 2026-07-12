@@ -428,7 +428,7 @@ function printSuccess(installPath) {
   console.log('  3. ' + dim('Start generating videos! Example:'));
   console.log('     ' + dim('"Generate a 5-second 720p video of a sunset over the ocean"'));
   console.log('');
-  console.log(dim('  Docs:      https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw'));
+  console.log(dim('  Docs:      https://github.com/Evolink-AI/seedance-2-family-video-gen-skill'));
   console.log(dim('  Dashboard: https://evolink.ai/dashboard/keys?utm_source=skill&utm_medium=install&utm_campaign=seedance-2-video-gen'));
   console.log(dim('  Support:   https://evolink.ai'));
   console.log('');

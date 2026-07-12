@@ -1,8 +1,8 @@
 ---
 name: seedance-2-video-gen
 description: Seedance 2.0 AI video generation via EvoLink API. Standard, Fast, and Mini tiers across text-to-video, image-to-video, and reference-to-video. Auto audio (voice, SFX, BGM). Works with OpenClaw, Claude Code, Cursor.
-homepage: https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw
-metadata: {"openclaw":{"homepage":"https://github.com/Evolink-AI/seedance2-video-gen-skill-for-openclaw","requires":{"bins":["jq","curl"],"env":["EVOLINK_API_KEY"]},"primaryEnv":"EVOLINK_API_KEY"}}
+homepage: https://github.com/Evolink-AI/seedance-2-family-video-gen-skill
+metadata: {"openclaw":{"homepage":"https://github.com/Evolink-AI/seedance-2-family-video-gen-skill","requires":{"bins":["jq","curl"],"env":["EVOLINK_API_KEY"]},"primaryEnv":"EVOLINK_API_KEY"}}
 ---
 
 # Seedance Video Generation
